@@ -1,0 +1,9 @@
+# distributed files
+dist/
+
+# npm
+node_modules/
+
+# ide
+.vscode/
+.idea/
