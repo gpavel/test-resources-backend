@@ -10,7 +10,7 @@ import { ExpressProxyController } from './controllers/AuthProxyController';
 const DEFAULT_PORT = 3000;
 
 function initializeDefaultConfig(): Record<string, any>  {
-  return config({ path: path.resolve(__dirname, '../.env.default') }).parsed ?? {};
+  return config({ path: path.resolve(__dirname, '../default.env') }).parsed ?? {};
 }
 
 function initializeUserConfig(): Record<string, any> {
