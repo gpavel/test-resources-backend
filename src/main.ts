@@ -1,25 +1,36 @@
 import express from 'express';
+import path from 'path';
 import { config } from 'dotenv';
+
 import { FoleonAuthManager } from './utils/FoleonTokenManager';
 import { ExpressProxyController } from './controllers/AuthProxyController';
-// import { StubAuthManager } from './utils/StubAuthManager';
 
 const DEFAULT_PORT = 3000;
 
+function initializeDefaultConfig(): Record<string, any>  {
+  return config({ path: path.resolve(__dirname + '../.env.default') }).parsed ?? {};
+}
+
+function initializeUserConfig(): Record<string, any> {
+  return config().parsed ?? {};
+}
+
 export function main(): void {
-  const { parsed } = config();
+  const configuration = {
+    ...initializeDefaultConfig(),
+    ...initializeUserConfig(),
+  };
 
   const app = express();
-  const port = parsed?.PORT ?? DEFAULT_PORT;
+  const port = configuration?.PORT ?? DEFAULT_PORT;
 
   const tokenManager = new FoleonAuthManager(
-    parsed?.FOLEON_OAUTH_URL as string,
-    parsed?.FOLEON_CLIENT_ID as string,
-    parsed?.FOLEON_CLIENT_SECRET as string,
+    configuration?.FOLEON_OAUTH_URL as string,
+    configuration?.FOLEON_CLIENT_ID as string,
+    configuration?.FOLEON_CLIENT_SECRET as string,
   );
 
   const controller = new ExpressProxyController(
-    // new StubAuthManager(),
     tokenManager,
   );
 
