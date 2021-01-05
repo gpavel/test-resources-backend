@@ -18,18 +18,17 @@ function initializeUserConfig(): Record<string, any> {
 }
 
 export function main(): void {
-  const configuration = {
-    ...initializeDefaultConfig(),
-    ...initializeUserConfig(),
-  };
+  initializeUserConfig();
+  initializeDefaultConfig();
+  const { env } = process;
 
   const app = express();
-  const port = configuration?.PORT ?? DEFAULT_PORT;
+  const port = env.PORT ? parseInt(env.PORT, 10) : DEFAULT_PORT;
 
   const tokenManager = new FoleonAuthManager(
-    configuration?.FOLEON_OAUTH_URL as string,
-    configuration?.FOLEON_CLIENT_ID as string,
-    configuration?.FOLEON_CLIENT_SECRET as string,
+    env?.FOLEON_OAUTH_URL as string,
+    env?.FOLEON_CLIENT_ID as string,
+    env?.FOLEON_CLIENT_SECRET as string,
   );
 
   const controller = new ExpressProxyController(
@@ -37,7 +36,10 @@ export function main(): void {
     // new StubAuthManager(),
   );
 
-  app.use(cors({ origin: (configuration.CLIENT_ORIGIN as string).split(',') }));
+  const corsClientOrigins = (env.CLIENT_ORIGIN as string).split(',');
+
+  app.use(cors({ origin: corsClientOrigins }));
+
   // TODO: remove the test URL once API is tested
   app.use('/test', controller.proxy('http://localhost:3000/proxied'));
   app.use('/publications', controller.proxy('https://api.foleon.com/v2/magazine/edition'));
