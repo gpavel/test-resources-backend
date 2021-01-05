@@ -38,11 +38,12 @@ export function main(): void {
   );
 
   app.use(cors({ origin: (configuration.CLIENT_ORIGIN as string).split(',') }));
-  app.use('/test', controller.proxy('http://localhost:3000/hello-world'));
+  // TODO: remove the test URL once API is tested
+  app.use('/test', controller.proxy('http://localhost:3000/proxied'));
   app.use('/publications', controller.proxy('https://api.foleon.com/v2/magazine/edition'));
   app.use('/projects', controller.proxy('https://api.foleon.com/v2/magazine/title'));
-
-  app.use('/hello-world', (req, res) => {
+  // TODO: remove the test proxy URL once API is tested
+  app.use('/proxied', (req, res) => {
     res.status(200).json({
       query: req.query,
       body: req.body,
