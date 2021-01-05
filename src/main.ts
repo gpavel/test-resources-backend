@@ -7,8 +7,6 @@ import { FoleonAuthManager } from './utils/FoleonTokenManager';
 import { ExpressProxyController } from './controllers/AuthProxyController';
 // import { StubAuthManager } from './utils/StubAuthManager';
 
-const DEFAULT_PORT = 3000;
-
 function initializeDefaultConfig(): Record<string, any>  {
   return config({ path: path.resolve(__dirname, '../default.env') }).parsed ?? {};
 }
@@ -23,7 +21,7 @@ export function main(): void {
   const { env } = process;
 
   const app = express();
-  const port = env.PORT ? parseInt(env.PORT, 10) : DEFAULT_PORT;
+  const port = parseInt(env.PORT as string, 10);
 
   const tokenManager = new FoleonAuthManager(
     env?.FOLEON_OAUTH_URL as string,
