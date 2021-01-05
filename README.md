@@ -26,3 +26,7 @@ Create a `.env` file in the root folder with the following variables or just add
 
    - `FOLEON_OAUTH_URL` - the URL which will be used for Foleon API authentication and authorization. Default: ``.
    - `PORT` - the port which will be used for launching HTTP server;
+
+## Launch
+
+Use Node.js to launch `dist/main.js` or just type `npm start`.
