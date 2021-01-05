@@ -24,8 +24,8 @@ Create a `.env` file in the root folder with the following variables or just add
 
 1. Optional variables:
 
-   - `FOLEON_OAUTH_URL` - the URL which will be used for Foleon API authentication and authorization. Default: ``.
-   - `PORT` - the port which will be used for launching HTTP server;
+   - `FOLEON_OAUTH_URL` - the URL which will be used for Foleon API authentication and authorization. Default: `https://api.foleon.com/oauth`;
+   - `PORT` - the port which will be used for launching HTTP server. Default: `3000`.
 
 Variables priority (from highest to lowest):
 
